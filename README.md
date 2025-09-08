@@ -1,6 +1,8 @@
 
 ⚙️ Built using NextJS, RainbowKit, Hardhat, Wagmi, Viem, and Typescript.
 
+<img width="1910" height="990" alt="image" src="https://github.com/user-attachments/assets/673250a6-6cac-44b9-8499-dc9dad598efe" />
+
 ## Project Structure
 
 ```
