@@ -1,10 +1,8 @@
 "use client";
 
 import type { NextPage } from "next";
-import { useAccount } from "wagmi";
 
 const Home: NextPage = () => {
-
   return (
     <>
       <div className="flex items-center flex-col grow pt-10">
