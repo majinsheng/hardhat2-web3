@@ -1,6 +1,7 @@
 "use client";
 
 import type { NextPage } from "next";
+import Image from 'next/image'
 
 const Home: NextPage = () => {
   return (
@@ -9,7 +10,7 @@ const Home: NextPage = () => {
         <div className="px-5">
           <div className="card card-side bg-base-100 shadow-sm">
             <figure>
-              <img src="/AboutMe.png" />
+              <Image src="/AboutMe.png" alt="About Me" />
             </figure>
             <div className="card-body">
               <h2 className="card-title">About Me</h2>
