@@ -5,19 +5,20 @@ import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { hardhat } from "viem/chains";
-import { 
-  ArrowPathIcon, 
-  ArrowUpTrayIcon,
+import {
   ArrowDownTrayIcon,
-  BanknotesIcon, 
-  Bars3Icon, 
-  BuildingLibraryIcon, 
-  CubeIcon, 
-  DocumentDuplicateIcon, 
-  HandThumbUpIcon, 
-  ListBulletIcon, 
-  PuzzlePieceIcon, 
-  SparklesIcon } from "@heroicons/react/24/outline";
+  ArrowPathIcon,
+  ArrowUpTrayIcon,
+  BanknotesIcon,
+  Bars3Icon,
+  BuildingLibraryIcon,
+  CubeIcon,
+  DocumentDuplicateIcon,
+  HandThumbUpIcon,
+  ListBulletIcon,
+  PuzzlePieceIcon,
+  SparklesIcon,
+} from "@heroicons/react/24/outline";
 import { FaucetButton, RainbowKitCustomConnectButton } from "~~/components/scaffold-eth";
 import { useOutsideClick, useTargetNetwork } from "~~/hooks/scaffold-eth";
 
@@ -62,8 +63,8 @@ export const menuLinks: HeaderMenuLink[] = [
         label: "IPFS Download",
         href: "/ipfsDownload",
         icon: <ArrowDownTrayIcon className="h-4 w-4" />,
-      }
-    ]
+      },
+    ],
   },
   {
     label: "Staking",
@@ -89,7 +90,7 @@ export const menuLinks: HeaderMenuLink[] = [
     label: "DEX",
     href: "/dex",
     icon: <BanknotesIcon className="h-4 w-4" />,
-  }
+  },
 ];
 
 export const HeaderMenuLinks = () => {
@@ -130,8 +131,9 @@ export const HeaderMenuLinks = () => {
               <Link
                 href={href}
                 passHref
-                className={`${isActive ? "bg-secondary shadow-md" : ""
-                  } hover:bg-secondary hover:shadow-md focus:!bg-secondary active:!text-neutral py-1.5 px-3 text-sm rounded-full gap-2 grid grid-flow-col`}
+                className={`${
+                  isActive ? "bg-secondary shadow-md" : ""
+                } hover:bg-secondary hover:shadow-md focus:!bg-secondary active:!text-neutral py-1.5 px-3 text-sm rounded-full gap-2 grid grid-flow-col`}
               >
                 {icon}
                 <span>{label}</span>

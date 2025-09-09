@@ -22,24 +22,16 @@ describe("sampleNFT", function () {
     it("Should be able to mint an NFT", async function () {
       const [owner] = await ethers.getSigners();
       const startingBalance = await sampleNFT.balanceOf(owner.address);
-      const mintResult = await sampleNFT.mintItem(
-        owner.address,
-        "QmfVMAmNM1kDEBYrC2TPzQDoCRFH6F5tE1e9Mr4FkkR5Xr"
-      );
+      const mintResult = await sampleNFT.mintItem(owner.address, "QmfVMAmNM1kDEBYrC2TPzQDoCRFH6F5tE1e9Mr4FkkR5Xr");
       const txResult = await mintResult.wait();
       expect(txResult?.status).to.equal(1);
-      expect(await sampleNFT.balanceOf(owner.address)).to.equal(
-        startingBalance + 1n
-      );
+      expect(await sampleNFT.balanceOf(owner.address)).to.equal(startingBalance + 1n);
     });
 
     it("Should track tokens of owner by index", async function () {
       const [owner] = await ethers.getSigners();
       const startingBalance = await sampleNFT.balanceOf(owner.address);
-      const token = await sampleNFT.tokenOfOwnerByIndex(
-        owner.address,
-        startingBalance - 1n
-      );
+      const token = await sampleNFT.tokenOfOwnerByIndex(owner.address, startingBalance - 1n);
       expect(token).to.greaterThan(0);
     });
   });
