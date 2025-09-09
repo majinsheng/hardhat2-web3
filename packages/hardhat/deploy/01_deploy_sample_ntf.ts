@@ -1,6 +1,5 @@
 import { HardhatRuntimeEnvironment } from "hardhat/types";
 import { DeployFunction } from "hardhat-deploy/types";
-import { Contract } from "ethers";
 
 /**
  * Deploys a contract named "SampleNFT" using the deployer account and
@@ -19,8 +18,6 @@ const deploySampleNFT: DeployFunction = async function (hre: HardhatRuntimeEnvir
     log: true,
     autoMine: true,
   });
-
-  const sampleNFT = await hre.ethers.getContract<Contract>("SampleNFT", deployer);
 };
 
 export default deploySampleNFT;
