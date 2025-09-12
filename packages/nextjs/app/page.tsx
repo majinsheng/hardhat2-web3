@@ -10,7 +10,7 @@ const Home: NextPage = () => {
         <div className="px-5">
           <div className="card card-side bg-base-100 shadow-sm">
             <figure>
-              <Image src="/AboutMe.png" alt="About Me" />
+              <Image src="/AboutMe.png" alt="About Me" width={268} height={380} />
             </figure>
             <div className="card-body">
               <h2 className="card-title">About Me</h2>
