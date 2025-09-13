@@ -10,9 +10,14 @@ https://github.com/user-attachments/assets/ee7d07ac-4033-4dcc-b5aa-a1464341130a
 ├── packages/
 │   ├── hardhat/                  # Ethereum development environment
 │   │   ├── contracts/            # Smart contracts
-│   │   │   └── YourContract.sol  # Example contract
+│   │   │   ├── EmToken.sol       # ERC20 token for staking and rewards
+│   │   │   ├── GreetingContract.sol # Simple greeting contract
+│   │   │   ├── SampleNFT.sol     # NFT implementation
+│   │   │   └── StakingRewards.sol # Token staking with rewards contract
 │   │   ├── deploy/               # Deployment scripts
-│   │   │   └── 00_deploy_your_contract.ts
+│   │   │   ├── 00_deploy_greeting_contract.ts
+│   │   │   ├── 01_deploy_sample_ntf.ts
+│   │   │   └── 02_deploy_staking_rewards.ts
 │   │   ├── scripts/              # Utility scripts
 │   │   │   ├── generateAccount.ts
 │   │   │   ├── generateTsAbis.ts
@@ -21,7 +26,9 @@ https://github.com/user-attachments/assets/ee7d07ac-4033-4dcc-b5aa-a1464341130a
 │   │   │   ├── revealPK.ts
 │   │   │   └── runHardhatDeployWithPK.ts
 │   │   └── test/                 # Contract tests
-│   │       └── YourContract.ts
+│   │       ├── GreetingContract.ts
+│   │       ├── SampleNFT.ts
+│   │       └── StakingRewards.ts
 │   │
 │   └── nextjs/                   # Frontend application
 │       ├── app/                  # App router based pages
@@ -52,6 +59,12 @@ The project follows a monorepo structure with two main packages:
    - Deployment scripts for different environments
    - Test files for contract functionality
    - Utility scripts for account management and more
+
+   **Key Contracts:**
+   - **EmToken**: A simple ERC20 token implementation used for staking and rewards.
+   - **GreetingContract**: A basic contract that stores and updates a greeting message.
+   - **SampleNFT**: An NFT (ERC721) implementation with minting functionality.
+   - **StakingRewards**: A staking contract that allows users to stake EmTokens and earn rewards over time.
 
 2. **NextJS Package** (`packages/nextjs/`): Contains the frontend application:
    - App router-based pages and layouts
@@ -98,6 +111,34 @@ This command deploys a test smart contract to the local network. The contract is
 
 ```
 yarn start
+```
+
+## Staking Functionality
+
+The project includes a staking rewards system with the following components:
+
+### EmToken Contract
+A standard ERC20 token with minting capabilities, used both as the staking token and rewards token.
+
+### StakingRewards Contract
+The main staking contract with the following features:
+- Users can stake their EmTokens and earn rewards over time
+- Rewards are distributed based on the amount staked and the duration
+- The contract owner can set the rewards duration and notify the amount of rewards to distribute
+- Users can withdraw their staked tokens and claim earned rewards at any time
+- Rewards accumulate proportionally to the staked amount and time
+
+### Testing
+Comprehensive test coverage for the staking system is available in `packages/hardhat/test/StakingRewards.ts`, including:
+- Deployment verification
+- Staking and withdrawal functionality
+- Reward calculations and distribution
+- Owner-only functions
+
+To run the staking rewards tests:
+```
+cd packages/hardhat
+npx hardhat test test/StakingRewards.ts
 ```
 
 Visit your app on: `http://localhost:3000`. You can interact with your smart contract using the `Debug Contracts` page. You can tweak the app config in `packages/nextjs/scaffold.config.ts`.
