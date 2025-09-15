@@ -11,7 +11,7 @@ const deployStakingRewards: DeployFunction = async function (hre: HardhatRuntime
   const { deployer } = await hre.getNamedAccounts();
   const { deploy } = hre.deployments;
 
-  const initialSupply = ethers.parseUnits('100', 'ether');
+  const initialSupply = ethers.parseUnits("100", "ether");
   const stakingToken = await deploy("EmToken", {
     from: deployer,
     args: ["Staking Token", "EST", initialSupply],
