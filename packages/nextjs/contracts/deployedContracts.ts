@@ -7,7 +7,7 @@ import { GenericContractsDeclaration } from "~~/utils/scaffold-eth/contract";
 const deployedContracts = {
   31337: {
     EmToken: {
-      address: "0xb185E9f6531BA9877741022C92CE858cDCc5760E",
+      address: "0xCf7Ed3AccA5a467e9e704C703E8D87F634fB0Fc9",
       abi: [
         {
           inputs: [
@@ -368,10 +368,10 @@ const deployedContracts = {
         transfer: "@openzeppelin/contracts/token/ERC20/ERC20.sol",
         transferFrom: "@openzeppelin/contracts/token/ERC20/ERC20.sol",
       },
-      deployedOnBlock: 359,
+      deployedOnBlock: 7,
     },
     GreetingContract: {
-      address: "0x1c9fD50dF7a4f066884b58A05D91e4b55005876A",
+      address: "0x5FbDB2315678afecb367f032d93F642f64180aa3",
       abi: [
         {
           inputs: [
@@ -512,10 +512,10 @@ const deployedContracts = {
         },
       ],
       inheritedFunctions: {},
-      deployedOnBlock: 353,
+      deployedOnBlock: 1,
     },
     SampleNFT: {
-      address: "0x0fe4223AD99dF788A6Dcad148eB4086E6389cEB6",
+      address: "0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512",
       abi: [
         {
           inputs: [],
@@ -1210,10 +1210,10 @@ const deployedContracts = {
         renounceOwnership: "@openzeppelin/contracts/access/Ownable.sol",
         transferOwnership: "@openzeppelin/contracts/access/Ownable.sol",
       },
-      deployedOnBlock: 355,
+      deployedOnBlock: 3,
     },
     StakingRewards: {
-      address: "0xAe120F0df055428E45b264E7794A18c54a2a3fAF",
+      address: "0xDc64a140Aa3E981100a9becA4E685f962f0cF6C9",
       abi: [
         {
           inputs: [
@@ -1511,7 +1511,7 @@ const deployedContracts = {
         },
       ],
       inheritedFunctions: {},
-      deployedOnBlock: 361,
+      deployedOnBlock: 9,
     },
   },
 } as const;

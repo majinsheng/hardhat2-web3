@@ -72,21 +72,6 @@ export const menuLinks: HeaderMenuLink[] = [
     icon: <SparklesIcon className="h-4 w-4" />,
   },
   {
-    label: "Vendor",
-    href: "/token-vendor",
-    icon: <BuildingLibraryIcon className="h-4 w-4" />,
-  },
-  {
-    label: "Dice",
-    href: "/dice-game",
-    icon: <CubeIcon className="h-4 w-4" />,
-  },
-  {
-    label: "Ballot",
-    href: "/ballot",
-    icon: <HandThumbUpIcon className="h-4 w-4" />,
-  },
-  {
     label: "DEX",
     href: "/dex",
     icon: <BanknotesIcon className="h-4 w-4" />,
