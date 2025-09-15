@@ -1,6 +1,6 @@
 "use client";
 
-import { StakingRewards } from "././_components/StakingRewards"
+import { StakingRewards } from "././_components/StakingRewards";
 import type { NextPage } from "next";
 
 const StakingPage: NextPage = () => {

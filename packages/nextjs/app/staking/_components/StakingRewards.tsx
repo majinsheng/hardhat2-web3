@@ -210,7 +210,7 @@ export const StakingRewards = () => {
     contractName: "StakingRewards",
     functionName: "owner",
   });
-  
+
   // Check if connected address is owner
   const isOwner = owner === connectedAddress;
 
@@ -269,17 +269,17 @@ export const StakingRewards = () => {
   // Format time remaining for rewards
   const getTimeRemaining = () => {
     if (!finishAt) return "No active rewards period";
-    
+
     const currentTime = Math.floor(Date.now() / 1000);
     const finishTime = Number(finishAt);
-    
+
     if (currentTime >= finishTime) return "Rewards period ended";
-    
+
     const secondsRemaining = finishTime - currentTime;
     const days = Math.floor(secondsRemaining / 86400);
     const hours = Math.floor((secondsRemaining % 86400) / 3600);
     const minutes = Math.floor((secondsRemaining % 3600) / 60);
-    
+
     return `${days}d ${hours}h ${minutes}m`;
   };
 
@@ -333,9 +333,7 @@ export const StakingRewards = () => {
             </div>
             <div className="stat bg-base-200 rounded-xl p-4">
               <div className="stat-title">Reward Rate</div>
-              <div className="stat-value">
-                {rewardRate ? parseFloat(formatEther(rewardRate)).toFixed(8) : "0"}/sec
-              </div>
+              <div className="stat-value">{rewardRate ? parseFloat(formatEther(rewardRate)).toFixed(8) : "0"}/sec</div>
             </div>
             <div className="stat bg-base-200 rounded-xl p-4">
               <div className="stat-title">Rewards End In</div>
@@ -356,7 +354,11 @@ export const StakingRewards = () => {
                 <span className="label-text">Amount to Stake</span>
               </label>
               <div className="input-group">
-                <EtherInput placeholder="Amount to send" value={stakeAmount} onChange={value => setStakeAmount(value)} />
+                <EtherInput
+                  placeholder="Amount to send"
+                  value={stakeAmount}
+                  onChange={value => setStakeAmount(value)}
+                />
                 <button className="btn btn-primary mt-2" onClick={handleStake} disabled={!isConnected || !stakeAmount}>
                   Stake
                 </button>
@@ -374,7 +376,11 @@ export const StakingRewards = () => {
                 <span className="label-text">Amount to Withdraw</span>
               </label>
               <div className="input-group">
-                <EtherInput placeholder="Amount to send" value={withdrawAmount} onChange={value => setWithdrawAmount(value)} />
+                <EtherInput
+                  placeholder="Amount to send"
+                  value={withdrawAmount}
+                  onChange={value => setWithdrawAmount(value)}
+                />
                 <button
                   className="btn btn-secondary mt-2"
                   onClick={handleWithdraw}
@@ -394,7 +400,8 @@ export const StakingRewards = () => {
           <div>
             <h2 className="card-title">Claim Your Rewards</h2>
             <p className="text-sm mt-1">
-              Claim {earnedRewards ? parseFloat(formatEther(earnedRewards)).toFixed(4) : "0"} {rewardsTokenName || "Tokens"}
+              Claim {earnedRewards ? parseFloat(formatEther(earnedRewards)).toFixed(4) : "0"}{" "}
+              {rewardsTokenName || "Tokens"}
             </p>
           </div>
           <button
@@ -413,7 +420,7 @@ export const StakingRewards = () => {
           <div className="card-body">
             <h2 className="card-title text-xl text-primary">Owner Controls</h2>
             <div className="divider"></div>
-            
+
             {/* Set Rewards Duration */}
             <div className="form-control">
               <label className="label">
@@ -427,16 +434,12 @@ export const StakingRewards = () => {
                   value={rewardsDuration}
                   onChange={e => setRewardsDuration(e.target.value)}
                 />
-                <button
-                  className="btn btn-primary mt-2"
-                  onClick={handleSetDuration}
-                  disabled={!rewardsDuration}
-                >
+                <button className="btn btn-primary mt-2" onClick={handleSetDuration} disabled={!rewardsDuration}>
                   Set Duration
                 </button>
               </div>
             </div>
-            
+
             {/* Notify Reward Amount */}
             <div className="form-control mt-4">
               <label className="label">
@@ -450,11 +453,7 @@ export const StakingRewards = () => {
                   value={rewardsAmount}
                   onChange={e => setRewardsAmount(e.target.value)}
                 />
-                <button
-                  className="btn btn-primary mt-2"
-                  onClick={handleNotifyRewardAmount}
-                  disabled={!rewardsAmount}
-                >
+                <button className="btn btn-primary mt-2" onClick={handleNotifyRewardAmount} disabled={!rewardsAmount}>
                   Notify Amount
                 </button>
               </div>
