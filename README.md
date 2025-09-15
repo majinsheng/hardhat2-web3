@@ -3,6 +3,10 @@
 
 https://github.com/user-attachments/assets/ee7d07ac-4033-4dcc-b5aa-a1464341130a
 
+WEB3 Architect from https://www.preethikasireddy.com/post/the-architecture-of-a-web-3-0-application
+<img width="1658" height="1412" alt="image" src="https://github.com/user-attachments/assets/42470498-b274-416a-8342-d7f0e7c8bf1b" />
+
+
 ## Project Structure
 
 ```
