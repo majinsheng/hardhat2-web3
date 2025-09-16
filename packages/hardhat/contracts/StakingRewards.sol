@@ -1,7 +1,11 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.20;
 
-import "./EmToken.sol";
+// Useful for debugging. Remove when deploying to a live network.
+import "hardhat/console.sol";
+
+import "./StakingToken.sol";
+import "./RewardsToken.sol";
 
 /**
  * @title StakingRewards
@@ -23,8 +27,8 @@ import "./EmToken.sol";
  *    - All state-changing functions update rewards before execution
  */
 contract StakingRewards {
-    EmToken public immutable stakingToken;
-    EmToken public immutable rewardsToken;
+    StakingToken public immutable stakingToken;
+    RewardsToken public immutable rewardsToken;
     address public owner;
 
     uint public duration;
@@ -61,6 +65,8 @@ contract StakingRewards {
             rewards[_account] = earned(_account);
             userRewardPerTokenPaid[_account] = rewardPerTokenStored;
         }
+        console.log("rewardPerTokenStored: %s", rewardPerTokenStored);
+        console.log("updatedAt: %s", updatedAt);
 
         _;
     }
@@ -73,8 +79,9 @@ contract StakingRewards {
      */
     constructor(address _stakingToken, address _rewardsToken) {
         owner = msg.sender;
-        stakingToken = EmToken(_stakingToken);
-        rewardsToken = EmToken(_rewardsToken);
+        stakingToken = StakingToken(_stakingToken);
+        rewardsToken = RewardsToken(_rewardsToken);
+        duration = 600; // Default duration set to 10 minutes (600 seconds)
     }
 
     /**
@@ -149,6 +156,11 @@ contract StakingRewards {
         if (totalSupply == 0) {
             return rewardPerTokenStored;
         }
+        console.log("totalSupply: %s", totalSupply);
+        console.log("rewardPerTokenStored: %s", rewardPerTokenStored);
+        console.log("rewardRate: %s", rewardRate);
+        console.log("lastTimeRewardApplicable", lastTimeRewardApplicable()); 
+        console.log("updatedAt: %s", updatedAt);
         return rewardPerTokenStored + ((rewardRate * (lastTimeRewardApplicable() - updatedAt)) * 1e18) / totalSupply;
     }
 
@@ -159,6 +171,8 @@ contract StakingRewards {
      * @return The amount of rewards earned by the account
      */
     function earned(address _account) public view returns (uint) {
+        console.log("_account: %s", _account);
+        console.log("balanceOf[_account]: %s", balanceOf[_account]);
         return (balanceOf[_account] * (rewardPerToken() - userRewardPerTokenPaid[_account])) / 1e18 + rewards[_account];
     }
 

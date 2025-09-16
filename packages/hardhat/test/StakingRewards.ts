@@ -1,12 +1,12 @@
 import { expect } from "chai";
 import { ethers, network } from "hardhat";
-import { EmToken, StakingRewards } from "../typechain-types";
+import { StakingToken, RewardsToken, StakingRewards } from "../typechain-types";
 import { HardhatEthersSigner } from "@nomicfoundation/hardhat-ethers/signers";
 
 describe("StakingRewards Contract", function () {
   // Contracts
-  let stakingToken: EmToken;
-  let rewardsToken: EmToken;
+  let stakingToken: StakingToken;
+  let rewardsToken: RewardsToken;
   let stakingRewards: StakingRewards;
 
   // Signers
@@ -37,9 +37,11 @@ describe("StakingRewards Contract", function () {
     bobAddress = await bob.getAddress();
 
     // Deploy tokens
-    const EmTokenFactory = await ethers.getContractFactory("EmToken");
-    stakingToken = (await EmTokenFactory.deploy("Staking Token", "EST", initialSupply)) as EmToken;
-    rewardsToken = (await EmTokenFactory.deploy("Rewards Token", "ERT", initialSupply)) as EmToken;
+    const StakingTokenFactory = await ethers.getContractFactory("StakingToken");
+    stakingToken = (await StakingTokenFactory.deploy(initialSupply)) as StakingToken;
+
+    const RewardsTokenFactory = await ethers.getContractFactory("RewardsToken");
+    rewardsToken = (await RewardsTokenFactory.deploy(initialSupply)) as RewardsToken;
 
     // Deploy staking rewards contract
     const StakingRewardsFactory = await ethers.getContractFactory("StakingRewards");

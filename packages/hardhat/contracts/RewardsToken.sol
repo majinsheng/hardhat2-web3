@@ -3,8 +3,8 @@ pragma solidity ^0.8.20;
 
 import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 
-contract EmToken is ERC20 {
-    constructor(string memory name, string memory symbol, uint256 initialSupply) ERC20(name, symbol) {
+contract RewardsToken is ERC20 {
+    constructor(uint256 initialSupply) ERC20("RewardsToken", "ERT") {
         _mint(msg.sender, initialSupply);
     }
 

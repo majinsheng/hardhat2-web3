@@ -3,7 +3,7 @@ import { DeployFunction } from "hardhat-deploy/types";
 import { ethers } from "hardhat";
 
 /**
- * 1.Deploys two ERC20 tokens "EmToken" as staking and rewards tokens.
+ * 1.Deploys two ERC20 tokens "Token" as staking and rewards tokens.
  * 2.Deploys a contract named "StakingRewards" using the deployer account
  * @param hre HardhatRuntimeEnvironment object.
  */
@@ -12,16 +12,16 @@ const deployStakingRewards: DeployFunction = async function (hre: HardhatRuntime
   const { deploy } = hre.deployments;
 
   const initialSupply = ethers.parseUnits("100", "ether");
-  const stakingToken = await deploy("EmToken", {
+  const stakingToken = await deploy("StakingToken", {
     from: deployer,
-    args: ["Staking Token", "EST", initialSupply],
+    args: [initialSupply],
     log: true,
     autoMine: true,
   });
 
-  const rewardsToken = await deploy("EmToken", {
+  const rewardsToken = await deploy("RewardsToken", {
     from: deployer,
-    args: ["Rewards Token", "ERT", initialSupply],
+    args: [initialSupply],
     log: true,
     autoMine: true,
   });

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { formatEther, parseEther } from "viem";
 import { useAccount } from "wagmi";
 import { EtherInput } from "~~/components/scaffold-eth/Input/EtherInput";
@@ -13,6 +13,12 @@ export const StakingRewards = () => {
   const [withdrawAmount, setWithdrawAmount] = useState("");
   const [rewardsDuration, setRewardsDuration] = useState("");
   const [rewardsAmount, setRewardsAmount] = useState("");
+
+  useEffect(() => {
+    if (!isConnected) {
+      notification.error("Please connect your wallet to interact with the staking contract");
+    }
+  }, [isConnected]);
 
   // Contract hooks
   const { data: stakingRewardsContract } = useScaffoldContract({
@@ -48,37 +54,37 @@ export const StakingRewards = () => {
   });
 
   const { data: stakingTokenBalance } = useScaffoldReadContract({
-    contractName: "EmToken",
+    contractName: "StakingToken",
     functionName: "balanceOf",
     args: [connectedAddress],
   });
 
   const { data: rewardsTokenBalance } = useScaffoldReadContract({
-    contractName: "EmToken",
+    contractName: "RewardsToken",
     functionName: "balanceOf",
     args: [connectedAddress],
   });
 
   const { data: stakingTokenName } = useScaffoldReadContract({
-    contractName: "EmToken",
+    contractName: "StakingToken",
     functionName: "name",
   });
 
   const { data: rewardsTokenName } = useScaffoldReadContract({
-    contractName: "EmToken",
+    contractName: "RewardsToken",
     functionName: "name",
   });
 
   // Interaction functions
   const { writeContractAsync: approveStakingTokenAsync } = useScaffoldWriteContract({
-    contractName: "EmToken",
+    contractName: "StakingToken",
   });
 
   const approveStakingToken = async () => {
     try {
       const result = await approveStakingTokenAsync({
         functionName: "approve",
-        args: [stakingRewardsContract?.address, stakeAmount ? parseEther(stakeAmount) : BigInt(0)],
+        args: [stakingRewardsContract?.address, stakeAmount ? parseEther(stakeAmount as `${number}`) : BigInt(0)],
       });
       if (result) {
         notification.success("Approval confirmed!");
@@ -97,7 +103,7 @@ export const StakingRewards = () => {
     try {
       const result = await stakeTokensAsync({
         functionName: "stake",
-        args: [stakeAmount ? parseEther(stakeAmount) : BigInt(0)],
+        args: [stakeAmount ? parseEther(stakeAmount as `${number}`) : BigInt(0)],
       });
       if (result) {
         notification.success("Tokens staked successfully!");
@@ -117,7 +123,7 @@ export const StakingRewards = () => {
     try {
       const result = await withdrawTokensAsync({
         functionName: "withdraw",
-        args: [withdrawAmount ? parseEther(withdrawAmount) : BigInt(0)],
+        args: [withdrawAmount ? parseEther(withdrawAmount as `${number}`) : BigInt(0)],
       });
       if (result) {
         notification.success("Tokens withdrawn successfully!");
@@ -168,7 +174,7 @@ export const StakingRewards = () => {
   };
 
   const { writeContractAsync: approveRewardsTokenAsync } = useScaffoldWriteContract({
-    contractName: "EmToken",
+    contractName: "RewardsToken",
   });
 
   const approveRewardsToken = async () => {
@@ -351,7 +357,7 @@ export const StakingRewards = () => {
             <h2 className="card-title">Stake Tokens</h2>
             <div className="form-control">
               <label className="label">
-                <span className="label-text">Amount to Stake</span>
+                <span className="label-text mb-2">Amount to Stake</span>
               </label>
               <div className="input-group">
                 <EtherInput
@@ -373,7 +379,7 @@ export const StakingRewards = () => {
             <h2 className="card-title">Withdraw Tokens</h2>
             <div className="form-control">
               <label className="label">
-                <span className="label-text">Amount to Withdraw</span>
+                <span className="label-text mb-2">Amount to Withdraw</span>
               </label>
               <div className="input-group">
                 <EtherInput
@@ -458,27 +464,6 @@ export const StakingRewards = () => {
                 </button>
               </div>
             </div>
-          </div>
-        </div>
-      )}
-
-      {!isConnected && (
-        <div className="alert alert-warning shadow-lg">
-          <div>
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className="stroke-current flex-shrink-0 h-6 w-6"
-              fill="none"
-              viewBox="0 0 24 24"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="2"
-                d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"
-              />
-            </svg>
-            <span>Please connect your wallet to interact with the staking contract</span>
           </div>
         </div>
       )}
