@@ -24,6 +24,9 @@ contract StakingRewards {
         uint256 startAt;
         uint256 rewardsRateStartAt;
         uint256 amount;
+        uint256 claimedAt;
+        uint256 rewardsClaimed;
+        uint256 amountWithdrawn;
     }
 
     mapping(address => transactions[]) public transactionsPerAccount;
@@ -32,8 +35,8 @@ contract StakingRewards {
 
     // events
     event EventForStake(address indexed user, uint256 amount, uint256 startAt, uint256 rewardsRate);
-    event EventForReward(address indexed user, uint256 reward);
-    event EventForWithdraw(address indexed user, uint256 amount);
+    event TotalRewards(address indexed user, uint256 reward);
+    event StakeWithdrawn(address indexed user, uint256 amount);
 
     /**
      * @notice Restricts function access to the contract owner
@@ -78,7 +81,7 @@ contract StakingRewards {
         require(_amount > 0, "amount = 0");
         stakingToken.transferFrom(msg.sender, address(this), _amount);
         balanceOf[msg.sender] += _amount;
-        transactionsPerAccount[msg.sender].push(transactions(block.timestamp, rewardsRate, _amount));
+        transactionsPerAccount[msg.sender].push(transactions(block.timestamp, rewardsRate, _amount, 0, 0, 0));
         totalSupply += _amount;
         emit EventForStake(msg.sender, _amount, block.timestamp, rewardsRate);
     }
@@ -93,29 +96,56 @@ contract StakingRewards {
             if (userTransactions[i].startAt == _startAt) {
                 require(_amount < userTransactions[i].amount, "withdraw amount exceeds staked amount in this transaction");
                 userTransactions[i].amount -= _amount;
+                userTransactions[i].amountWithdrawn += _amount;
                 break;
             }
         }
 
         stakingToken.transfer(msg.sender, _amount);
 
-        emit EventForWithdraw(msg.sender, _amount);
+        emit StakeWithdrawn(msg.sender, _amount);
     }
 
+    modifier updateReward(address _account) {
+        for (uint i = 0; i < transactionsPerAccount[_account].length; i++) {
+            transactions storage txn = transactionsPerAccount[_account][i];
+            uint256 timeStaked = 0;
+            if (txn.startAt + duration < block.timestamp) {
+                timeStaked = block.timestamp - txn.startAt;
+            } else {
+                timeStaked = duration;
+            }
+            uint256 totalAmount = (txn.amount - txn.amountWithdrawn) * (timeStaked / duration);
+            uint256 rewards = (totalAmount * txn.rewardsRateStartAt) / 1e18;
+            txn.rewardsClaimed += rewards;
+            txn.claimedAt = block.timestamp;
+        }
+        _;
+    }
+
+    // View function to see pending rewards for an account
     function earned(address _account) public view returns (uint256) {
         uint256 totalRewards = 0;
-        for (uint256 i = 0; i < transactionsPerAccount[_account].length; i++) {
+        for (uint i = 0; i < transactionsPerAccount[_account].length; i++) {
             transactions memory txn = transactionsPerAccount[_account][i];
-            uint256 rewards = (txn.amount * txn.rewardsRateStartAt) / 1e18;
+            uint256 timeStaked = 0;
+            if (txn.startAt + duration < block.timestamp) {
+                timeStaked = block.timestamp - txn.startAt;
+            } else {
+                timeStaked = duration;
+            }
+            uint256 totalAmount = (txn.amount - txn.amountWithdrawn) * (timeStaked / duration);
+            uint256 rewards = (totalAmount * txn.rewardsRateStartAt) / 1e18;
             totalRewards += rewards;
         }
         return totalRewards;
     }
 
-    function getReward() external {
+    // Claim rewards for the sender
+    function claimRewards() external updateReward(msg.sender) {
         uint256 reward = earned(msg.sender);
         require(reward > 0, "no rewards to claim");
         rewardsToken.mint(msg.sender, reward);
-        emit EventForReward(msg.sender, reward);
+        emit TotalRewards(msg.sender, reward);
     }
 }
